@@ -1,5 +1,6 @@
 package com.yl.myoj.controller;
 
+import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yl.myoj.annotation.AuthCheck;
 import com.yl.myoj.common.BaseResponse;
@@ -25,6 +26,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yl.myoj.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
@@ -49,7 +51,6 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    // region 登录相关
 
     /**
      * 用户注册
@@ -90,6 +91,9 @@ public class UserController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         LoginUserVO loginUserVO = userService.userLogin(userAccount, userPassword, request);
+
+        String token = JwtUtil.createToken(loginUserVO.getId());
+        loginUserVO.setToken(token);
         return ResultUtils.success(loginUserVO);
     }
 

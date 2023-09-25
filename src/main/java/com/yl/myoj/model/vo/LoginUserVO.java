@@ -2,7 +2,6 @@ package com.yl.myoj.model.vo;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import lombok.Data;
 
 /**
@@ -45,6 +44,12 @@ public class LoginUserVO implements Serializable {
      * 更新时间
      */
     private Date updateTime;
+
+
+    /**
+     * token
+     */
+    private String token;
 
     private static final long serialVersionUID = 1L;
 }
